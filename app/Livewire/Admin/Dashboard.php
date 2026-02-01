@@ -3,27 +3,21 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
-use App\Models\User;
+use Livewire\Attributes\Layout;
 use App\Models\Product;
+use App\Models\User;
 use App\Models\Order;
 
+#[Layout('layouts.admin')]
 class Dashboard extends Component
 {
-    public $totalUsers;
-    public $totalProducts;
-    public $totalOrders;
-    public $totalRevenue;
-
-    public function mount()
-    {
-        $this->totalUsers    = User::count();
-        $this->totalProducts = Product::count();
-        $this->totalOrders   = Order::count();
-        $this->totalRevenue  = Order::sum('total');
-    }
-
     public function render()
     {
-        return view('livewire.admin.dashboard');
+        return view('livewire.admin.dashboard', [
+            'productsCount' => Product::count(),
+            'usersCount'    => User::count(),
+            //'ordersCount'   => Order::count(),
+            'revenue'       => Order::sum('total'),
+        ]);
     }
 }

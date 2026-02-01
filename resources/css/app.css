@@ -1,7 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Global UI variables */
+:root {
+  --bg: #0B0B0B;
+  --surface: #121212;
+  --border: #1F1F1F;
+
+  --text: #FFFFFF;
+  --text-muted: #9CA3AF;
+  --gold: #C9A24D;
+}
+
+body {
+  font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
 [x-cloak] {
-    display: none;
+  display: none;
 }

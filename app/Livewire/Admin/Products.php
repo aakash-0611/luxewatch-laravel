@@ -3,107 +3,140 @@
 namespace App\Livewire\Admin;
 
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use Livewire\WithFileUploads;
 use App\Models\Product;
+use Livewire\WithPagination;
 
+#[Layout('layouts.admin')]
 class Products extends Component
 {
-    public $products;
+    use WithFileUploads;
+    use WithPagination;
 
-    public $brand, $model, $price, $cond, $image_url, $active = true;
-    public $productId;
-    public $isEditing = false;
-    public $showModal = false;
+    public bool $showModal = false;
+    public ?int $editingId = null;
+    public bool $confirmingDelete = false;
+    public ?int $deleteId = null;
+    public string $search = '';
 
+    // Form fields
+    public string $brand = '';
+    public string $model = '';
+    public float|string $price = '';
+    public string $cond = '';
+    public bool $active = true;
 
-    protected $rules = [
-        'brand' => 'required|string|max:80',
-        'model' => 'required|string|max:160',
-        'price' => 'required|numeric|min:0',
-        'cond'  => 'required|string|max:40',
-        'image_url' => 'required|string|max:255',
-        'active' => 'boolean'
-    ];
+    // Image
+    public $image; // Livewire temp upload
 
-    public function mount()
+    protected $queryString = ['search'];
+
+    public function updatingSearch()
     {
-        $this->loadProducts();
+        $this->resetPage();
     }
 
-    public function loadProducts()
+    public function openModal(): void
     {
-        $this->products = Product::latest()->get();
+        $this->resetForm();
+        $this->editingId = null;
+        $this->showModal = true;
     }
 
-    public function resetFields()
+    public function closeModal(): void
     {
-        $this->brand = $this->model = $this->cond = $this->image_url = '';
+        $this->showModal = false;
+    }
+
+    public function save(): void
+    {
+        $rules = [
+            'brand' => 'required|string|max:80',
+            'model' => 'required|string|max:160',
+            'price' => 'required|numeric|min:0',
+            'cond'  => 'required|string|max:40',
+            'image' => $this->editingId
+                ? 'nullable|mimes:jpg,jpeg,png,webp|max:2048'
+                : 'required|mimes:jpg,jpeg,png,webp|max:2048',
+        ];
+
+        $this->validate($rules);
+
+        $data = [
+            'brand' => $this->brand,
+            'model' => $this->model,
+            'price' => $this->price,
+            'cond'  => $this->cond,
+            'active'=> $this->active,
+        ];
+
+        if ($this->image) {
+            $data['image_url'] = $this->image->store('products', 'public');
+        }
+
+        Product::updateOrCreate(
+            ['id' => $this->editingId],
+            $data
+        );
+
+        $this->closeModal();
+    }
+
+
+    private function resetForm(): void
+    {
+        $this->brand = '';
+        $this->model = '';
         $this->price = '';
+        $this->cond  = '';
         $this->active = true;
-        $this->isEditing = false;
-    }
-
-    public function saveProduct()
-    {
-        $this->validate();
-
-        Product::create([
-            'brand' => $this->brand,
-            'model' => $this->model,
-            'price' => $this->price,
-            'cond' => $this->cond,
-            'image_url' => $this->image_url,
-            'active' => $this->active
-        ]);
-
-        $this->resetFields();
-        $this->loadProducts();
-    }
-
-    public function editProduct($id)
-    {
-        $product = Product::findOrFail($id);
-
-        $this->productId = $product->id;
-        $this->brand = $product->brand;
-        $this->model = $product->model;
-        $this->price = $product->price;
-        $this->cond = $product->cond;
-        $this->image_url = $product->image_url;
-        $this->active = $product->active;
-
-        $this->isEditing = true;
-    }
-
-    public function updateProduct()
-    {
-        $this->validate();
-
-        $product = Product::findOrFail($this->productId);
-
-        $product->update([
-            'brand' => $this->brand,
-            'model' => $this->model,
-            'price' => $this->price,
-            'cond' => $this->cond,
-            'image_url' => $this->image_url,
-            'active' => $this->active
-        ]);
-
-        $this->resetFields();
-        $this->loadProducts();
-    }
-
-    public function deleteProduct($id)
-    {
-        Product::findOrFail($id)->delete();
-        $this->loadProducts();
+        $this->image = null;
     }
 
     public function render()
     {
         return view('livewire.admin.products', [
-            'products' => Product::latest()->get()
+            'products' => Product::when(
+                    $this->search !== '',
+                    fn ($q) =>
+                        $q->where('brand', 'like', "%{$this->search}%")
+                        ->orWhere('model', 'like', "%{$this->search}%")
+                        ->orWhere('cond', 'like', "%{$this->search}%")
+                )
+                ->latest()
+                ->get(),
         ]);
     }
+
+
+    public function edit(int $id): void
+    {
+        $product = Product::findOrFail($id);
+
+        $this->editingId = $product->id;
+        $this->brand = $product->brand;
+        $this->model = $product->model;
+        $this->price = $product->price;
+        $this->cond  = $product->cond;
+        $this->active = $product->active;
+
+        $this->image = null; // reset upload
+        $this->showModal = true;
+    }
+
+    public function confirmDelete(int $id): void
+    {
+        $this->deleteId = $id;
+        $this->confirmingDelete = true;
+    }
+
+    public function delete(): void
+    {
+        Product::findOrFail($this->deleteId)->delete();
+
+        $this->confirmingDelete = false;
+        $this->deleteId = null;
+    }
+
 }
-?>

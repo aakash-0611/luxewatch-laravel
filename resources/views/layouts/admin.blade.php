@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>LuxeWatch Admin</title>
-    @vite('resources/css/app.css')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
+
 <body class="bg-gray-100 font-sans">
 
 <div class="flex min-h-screen">
@@ -19,8 +20,8 @@
         <nav class="flex-1 p-4 space-y-2 text-sm">
             <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-800">Dashboard</a>
             <a href="{{ route('admin.products') }}" class="block px-4 py-2 rounded hover:bg-gray-800">Products</a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-800">Orders</a>
-            <a href="#" class="block px-4 py-2 rounded hover:bg-gray-800">Users</a>
+            <a href="{{ route('admin.orders') }}" class="block px-4 py-2 rounded hover:bg-gray-800">Orders</a>
+            <a href="{{ route('admin.users') }}" class="block px-4 py-2 rounded hover:bg-gray-800">Users</a>
         </nav>
 
         <div class="p-4 border-t border-gray-800">
@@ -35,7 +36,7 @@
 
     {{-- Main Content --}}
     <main class="flex-1 p-8">
-        @yield('content')
+        {{ $slot }}
     </main>
 
 </div>

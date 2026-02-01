@@ -14,7 +14,12 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
+            },
+            colors: {
+                gold: '#C9A24D',
+                surface: '#121212',
+                border: '#1F1F1F',
             },
         },
     },
