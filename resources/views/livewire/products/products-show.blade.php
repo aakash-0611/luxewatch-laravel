@@ -1,50 +1,90 @@
 <div class="bg-bg min-h-screen">
 
-    <section class="max-w-7xl mx-auto px-4 py-28 grid md:grid-cols-2 gap-16 items-start">
+    <section class="max-w-7xl mx-auto px-4 py-28 grid lg:grid-cols-2 gap-16">
 
-        {{-- Product Image --}}
-        <div class="aspect-square bg-surface rounded-2xl"></div>
+        {{-- PRODUCT IMAGE --}}
+        <div class="bg-surface border border-border rounded-xl overflow-hidden">
+            <div class="aspect-square bg-bg">
+                <img
+                    src="{{ asset('storage/' . $product->image_url) }}"
+                    alt="{{ $product->model }}"
+                    class="w-full h-full object-cover"
+                >
+            </div>
+        </div>
 
-        {{-- Product Info --}}
-        <div>
-            <p class="text-text-subtle text-sm mb-2">
-                Brand Name
-            </p>
+        {{-- PRODUCT DETAILS --}}
+        <div class="flex flex-col justify-between">
 
-            <h1 class="text-text text-3xl md:text-4xl font-semibold mb-4">
-                Watch Model Name
-            </h1>
+            <div>
+                <p class="text-text-subtle text-sm mb-2">
+                    {{ $product->brand }}
+                </p>
 
-            <p class="text-gold text-xl font-medium mb-6">
-                $4,500
-            </p>
+                <h1 class="text-text text-3xl font-semibold mb-4">
+                    {{ $product->model }}
+                </h1>
 
-            <p class="text-text-muted max-w-md mb-10">
-                This is a placeholder description for the product detail page.
-                Detailed specifications, condition, and authenticity information
-                will appear here.
-            </p>
+                <p class="text-gold text-xl font-medium mb-6">
+                    ${{ number_format($product->price, 2) }}
+                </p>
 
-            {{-- Actions --}}
-            <div class="flex gap-4">
-                <button wire:click="addToCart"
-                    class="px-8 py-3 bg-gold text-black rounded-full">
+                <p class="text-text-muted leading-relaxed mb-8">
+                    This timepiece embodies precision craftsmanship and timeless
+                    elegance. Designed for those who appreciate heritage, quality,
+                    and refined engineering.
+                </p>
+
+                <p class="text-text-muted text-sm mb-8">
+                    Condition:
+                    <span class="text-text capitalize">
+                        {{ $product->cond }}
+                    </span>
+                </p>
+            </div>
+
+            {{-- ACTIONS --}}
+            <div class="flex flex-col sm:flex-row gap-4">
+
+                {{-- ADD TO CART --}}
+                <button
+                    wire:click="addToCart"
+                    class="flex-1 px-8 py-4 bg-gold text-black
+                           rounded-full tracking-wider
+                           hover:opacity-90 transition">
                     Add to Cart
                 </button>
 
-                @if($inWishlist)
-                <button wire:click="removeFromWishlist"
-                    class="px-8 py-3 border border-gold text-gold rounded-full">
-                    Remove from Wishlist
-                </button>
-            @else
-                <button wire:click="toggleWishlist"
-                    class="px-8 py-3 border border-border text-text rounded-full">
-                    Add to Wishlist
-                </button>
-            @endif
+                {{-- WISHLIST --}}
+                @auth
+                    @if($inWishlist)
+                        <button
+                            wire:click="removeFromWishlist"
+                            class="flex-1 px-8 py-4 border border-gold
+                                   text-gold rounded-full
+                                   hover:bg-gold hover:text-black transition">
+                            Remove from Wishlist
+                        </button>
+                    @else
+                        <button
+                            wire:click="addToWishlist"
+                            class="flex-1 px-8 py-4 border border-border
+                                   text-text rounded-full
+                                   hover:border-gold hover:text-gold transition">
+                            Add to Wishlist
+                        </button>
+                    @endif
+                @else
+                    <a href="/login"
+                       class="flex-1 px-8 py-4 border border-border
+                              text-text rounded-full text-center
+                              hover:border-gold hover:text-gold transition">
+                        Login to Wishlist
+                    </a>
+                @endauth
 
             </div>
+
         </div>
 
     </section>

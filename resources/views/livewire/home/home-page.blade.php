@@ -29,42 +29,128 @@
             </div>
 
             {{-- Right Placeholder --}}
-            <div class="aspect-square rounded-2xl bg-surface"></div>
+            <div class="aspect-square rounded-2xl bg-surface">
+                
+            <img
+                src="{{ asset('images/patek-.jpg') }}"
+                alt="Luxury Watch"
+                class="w-full h-full object-cover rounded-lg"
+            >
+
+            </div>
 
         </div>
     </section>
 
     {{-- FEATURED --}}
-    <section class="bg-bg py-24 border-t border-border">
-        <div class="max-w-7xl mx-auto px-4">
+    <section class="bg-black py-24 border-t border-border">
+    <div class="max-w-7xl mx-auto px-4">
 
-            <h2 class="text-text text-2xl font-semibold mb-12">
-                Featured Timepieces
-            </h2>
+        {{-- Section Header --}}
+        <div class="flex items-end justify-between mb-12">
+            <div>
+                <p class="text-gold text-sm tracking-widest uppercase mb-2">
+                    Curated Selection
+                </p>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                @for ($i = 0; $i < 4; $i++)
-                    <div class="bg-surface border border-border rounded-lg p-4">
+                <h2 class="text-3xl font-semibold text-text">
+                    Featured Timepieces
+                </h2>
+            </div>
 
-                        <div class="aspect-square bg-bg rounded mb-4"></div>
+            <a href="/products"
+               class="hidden md:inline text-sm text-text-muted hover:text-white transition">
+                View all →
+            </a>
+        </div>
 
-                        <p class="text-text-subtle text-xs">
-                            Brand Name
-                        </p>
+        {{-- Product Grid --}}
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
-                        <p class="text-text font-medium">
-                            Model Name
-                        </p>
+            {{-- Card 1 --}}
+            <div class="group bg-surface border border-border rounded-xl overflow-hidden hover:border-gold transition">
+                <img
+                    src="{{ asset('images/featured-1.jpg') }}"
+                    alt="Luxury Watch"
+                    class="w-full aspect-square object-cover"
+                >
 
-                        <p class="text-gold mt-2 text-sm">
-                            $4,500
-                        </p>
-                    </div>
-                @endfor
+                <div class="p-4">
+                    <p class="text-xs text-text-muted uppercase tracking-wide">
+                        Rolex
+                    </p>
+
+                    <p class="font-medium text-text">
+                        Submariner 
+                    </p>
+
+                </div>
+            </div>
+
+            {{-- Card 2 --}}
+            <div class="group bg-surface border border-border rounded-xl overflow-hidden hover:border-gold transition">
+                <img
+                    src="{{ asset('products/omega_seamaster.png') }}"
+                    alt="Luxury Watch"
+                    class="w-full aspect-square object-cover"
+                >
+
+                <div class="p-4">
+                    <p class="text-xs text-text-muted uppercase tracking-wide">
+                        Omega
+                    </p>
+
+                    <p class="font-medium text-text">
+                        Aqua Terra
+                    </p>
+
+                </div>
+            </div>
+
+            {{-- Card 3 --}}
+            <div class="group bg-surface border border-border rounded-xl overflow-hidden hover:border-gold transition">
+                <img
+                    src="{{ asset('images/featured-3.jpg') }}"
+                    alt="Luxury Watch"
+                    class="w-full aspect-square object-cover"
+                >
+
+                <div class="p-4">
+                    <p class="text-xs text-text-muted uppercase tracking-wide">
+                        Patek Philippe
+                    </p>
+
+                    <p class="font-medium text-text">
+                        Nautilus
+                    </p>
+
+                </div>
+            </div>
+
+            {{-- Card 4 --}}
+            <div class="group bg-surface border border-border rounded-xl overflow-hidden hover:border-gold transition">
+                <img
+                    src="{{ asset('images/ap_ro.png') }}"
+                    alt="Luxury Watch"
+                    class="w-full aspect-square object-cover"
+                >
+
+                <div class="p-4">
+                    <p class="text-xs text-text-muted uppercase tracking-wide">
+                        Audemars Piguet
+                    </p>
+
+                    <p class="font-medium text-text">
+                        Royal Oak
+                    </p>
+                </div>
             </div>
 
         </div>
-    </section>
+
+    </div>
+</section>
+
 
     {{-- ABOUT --}}
     <section class="bg-bg py-24 border-t border-border">

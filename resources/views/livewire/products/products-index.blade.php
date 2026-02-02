@@ -1,74 +1,117 @@
-<section class="bg-black border-b border-border">
-    <div class="max-w-7xl mx-auto px-4 py-16">
-        <h1 class="text-3xl font-semibold mb-2">Our Collection</h1>
-        <p class="text-text-muted max-w-xl">
-            Explore a curated selection of elite timepieces designed
-            for precision, elegance, and lasting value.
-        </p>
-    </div>
-</section>
-<section class="bg-black py-20">
-    <div class="max-w-7xl mx-auto px-4 grid md:grid-cols-4 gap-10">
+<div class="bg-bg min-h-screen">
 
-        {{-- Filters --}}
-        <aside class="hidden md:block space-y-8">
-            <div>
-                <h3 class="text-sm font-medium mb-4">Condition</h3>
-                <div class="space-y-2 text-sm text-text-muted">
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" class="accent-gold">
-                        New
-                    </label>
-                    <label class="flex items-center gap-2">
-                        <input type="checkbox" class="accent-gold">
-                        Used
-                    </label>
+    <section class="max-w-7xl mx-auto px-4 py-28">
+
+        <h1 class="text-text text-3xl text-center font-semibold mb-12">
+            Our Collection
+        </h1>
+
+        <div class="grid lg:grid-cols-4 gap-12">
+
+            {{-- SIDEBAR --}}
+            <aside class="lg:col-span-1 space-y-8">
+
+                <div>
+                    <h3 class="text-text font-medium mb-4">
+                        Filter
+                    </h3>
+
+                    <button wire:click="resetFilters"
+                            class="text-sm text-gold hover:underline">
+                        Reset Filters
+                    </button>
                 </div>
-            </div>
 
-            <div>
-                <h3 class="text-sm font-medium mb-4">Price Range</h3>
-                <p class="text-text-muted text-sm">Coming soon</p>
-            </div>
-        </aside>
+                {{-- Brand --}}
+                <div>
+                    <label class="text-sm text-text-muted block mb-2">
+                        Brand
+                    </label>
 
-        {{-- Product Grid --}}
-        <div class="md:col-span-3">
+                    <select wire:model.live="brand"
+                            class="w-full bg-surface border border-border rounded px-3 py-2 text-text">
+                        <option value="">All Brands</option>
+                        @foreach($brands as $b)
+                            <option value="{{ $b }}">{{ $b }}</option>
+                        @endforeach
+                    </select>
+                </div>
 
-            {{-- Sort --}}
-            <div class="flex justify-between items-center mb-8">
-                <p class="text-sm text-text-muted">Showing all watches</p>
+                {{-- Condition --}}
+                <div>
+                    <label class="text-sm text-text-muted block mb-2">
+                        Condition
+                    </label>
 
-                <select class="bg-surface border border-border text-sm px-3 py-2 rounded">
-                    <option>Sort by</option>
-                    <option>Price: Low to High</option>
-                    <option>Price: High to Low</option>
-                </select>
-            </div>
+                    <select wire:model.live="condition"
+                            class="w-full bg-surface border border-border rounded px-3 py-2 text-text">
+                        <option value="">All</option>
+                        <option value="new">New</option>
+                        <option value="used">Used</option>
+                    </select>
+                </div>
 
-            {{-- Grid --}}
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                {{-- Sort --}}
+                <div>
+                    <label class="text-sm text-text-muted block mb-2">
+                        Sort by
+                    </label>
 
-                @for ($i = 0; $i < 12; $i++)
-                    <div class="bg-surface border border-border rounded-lg overflow-hidden hover:border-gold transition group">
+                    <select wire:model.live="sort"
+                            class="w-full bg-surface border border-border rounded px-3 py-2 text-text">
+                        <option value="latest">Latest</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                    </select>
+                </div>
 
-                        <div class="aspect-square bg-black"></div>
+            </aside>
 
-                        <div class="p-4">
-                            <p class="text-xs text-text-muted">Brand Name</p>
-                            <p class="text-sm font-medium">Model Name</p>
+            {{-- PRODUCTS GRID --}}
+            <div class="lg:col-span-3">
 
-                            <div class="flex justify-between items-center mt-3">
-                                <span class="text-gold text-sm">$5,200</span>
-                                <span class="text-xs text-text-muted">New</span>
-                            </div>
-                        </div>
+                @if($products->isEmpty())
+                    <p class="text-text-muted">
+                        No products match your filters.
+                    </p>
+                @else
+                    <div class="grid grid-cols-3 md:grid-cols-4 gap-6">
+
+                        @foreach($products as $product)
+                            <a href="/products/{{ $product->id }}"
+                               class="bg-surface border border-border rounded-xl p-4
+                                      hover:border-gold transition">
+
+                                <div class="aspect-square bg-bg rounded mb-4 overflow-hidden">
+                                    <img
+                                        src="{{ asset('storage/' . $product->image_url) }}"
+                                        alt="{{ $product->model }}"
+                                        class="w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                <p class="text-text-subtle text-xs">
+                                    {{ $product->brand }}
+                                </p>
+
+                                <p class="text-text font-medium">
+                                    {{ $product->model }}
+                                </p>
+
+                                <p class="text-gold mt-2 text-sm">
+                                    ${{ number_format($product->price, 2) }}
+                                </p>
+
+                            </a>
+                        @endforeach
 
                     </div>
-                @endfor
+                @endif
 
             </div>
 
         </div>
-    </div>
-</section>
+
+    </section>
+
+</div>

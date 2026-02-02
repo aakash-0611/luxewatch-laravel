@@ -11,34 +11,28 @@ class CartService
         return session()->get('cart', []);
     }
 
-    public static function add(Product $product, int $quantity = 1): void
+    public static function add(Product $product, int $qty = 1): void
     {
         $cart = self::get();
 
         if (isset($cart[$product->id])) {
-            $cart[$product->id]['quantity'] += $quantity;
+            $cart[$product->id]['qty'] += $qty;
         } else {
             $cart[$product->id] = [
-                'id' => $product->id,
-                'brand' => $product->brand,
-                'model' => $product->model,
-                'price' => $product->price,
-                'quantity' => $quantity,
-                'image' => $product->image_url,
+                'product' => $product,
+                'qty' => $qty,
             ];
         }
 
         session()->put('cart', $cart);
     }
 
-    public static function update(int $productId, int $quantity): void
+    public static function update(int $productId, int $qty): void
     {
         $cart = self::get();
 
-        if ($quantity <= 0) {
-            unset($cart[$productId]);
-        } else {
-            $cart[$productId]['quantity'] = $quantity;
+        if (isset($cart[$productId])) {
+            $cart[$productId]['qty'] = max(1, $qty);
         }
 
         session()->put('cart', $cart);
@@ -47,6 +41,7 @@ class CartService
     public static function remove(int $productId): void
     {
         $cart = self::get();
+
         unset($cart[$productId]);
 
         session()->put('cart', $cart);
@@ -59,14 +54,13 @@ class CartService
 
     public static function total(): float
     {
-        return collect(self::get())
-            ->sum(fn ($item) => $item['price'] * $item['quantity']);
+        return collect(self::get())->sum(
+            fn ($item) => $item['product']->price * $item['qty']
+        );
     }
-    
     public static function count(): int
     {
-        return collect(self::get())
-            ->sum(fn ($item) => $item['quantity']);
+        return collect(self::get())->sum(fn ($item) => $item['qty']);
     }
 
 }

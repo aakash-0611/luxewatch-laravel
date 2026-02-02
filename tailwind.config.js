@@ -13,16 +13,23 @@ export default {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
-            },
-            colors: {
-                text: 'var(--text)',
-                'text-muted': 'var(--text-muted)',
-                'text-subtle': 'var(--text-subtle)',
-                gold: 'var(--gold)',
-            }
+        colors: {
+            bg: 'var(--bg)',
+            surface: 'var(--surface)',
+            'surface-alt': 'var(--surface-alt)',
+            border: 'var(--border)',
 
+            text: 'var(--text)',
+            'text-muted': 'var(--text-muted)',
+            'text-subtle': 'var(--text-subtle)',
+
+            gold: 'var(--gold)',
+            'gold-soft': 'var(--gold-soft)',
+
+            success: 'var(--success)',
+            warning: 'var(--warning)',
+            danger: 'var(--danger)',
+        },
         },
     },
 

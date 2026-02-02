@@ -21,16 +21,16 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-600">
                 <tr>
-                    <th class="px-6 py-3">Order #</th>
-                    <th class="px-6 py-3">Customer</th>
-                    <th class="px-6 py-3">Total</th>
-                    <th class="px-6 py-3">Status</th>
-                    <th class="px-6 py-3">Date</th>
+                    <th class="px-6 py-3 text-left">Order #</th>
+                    <th class="px-6 py-3 text-left">Customer</th>
+                    <th class="px-6 py-3 text-left">Total</th>
+                    <th class="px-6 py-3 text-left">Status</th>
+                    <th class="px-6 py-3 text-left">Date</th>
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
             </thead>
 
-            <tbody class="divide-y">
+            <tbody class="divide-y text-gray-900">
                 @forelse($orders as $order)
                     <tr>
                         <td class="px-6 py-4">#{{ $order->id }}</td>
@@ -80,7 +80,7 @@
 
     <!-- STATUS MODAL -->
     @if($showStatusModal)
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 text-gray-900">
         <div class="bg-white rounded-xl w-full max-w-sm p-6 space-y-4">
             <h2 class="text-lg font-semibold">Update Order Status</h2>
 

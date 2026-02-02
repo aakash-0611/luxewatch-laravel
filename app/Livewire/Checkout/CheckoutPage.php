@@ -20,53 +20,67 @@ class CheckoutPage extends Component
     public string $city = '';
     public string $postal_code = '';
 
-    protected $rules = [
-        'full_name' => 'required|string|max:120',
-        'phone' => 'required|string|max:20',
-        'address' => 'required|string|max:255',
-        'city' => 'required|string|max:80',
+    public array $cart = [];
+    public float $subtotal = 0;
+    public float $total = 0;
+
+    protected array $rules = [
+        'full_name'   => 'required|string|max:120',
+        'phone'       => 'required|string|max:20',
+        'address'     => 'required|string|max:255',
+        'city'        => 'required|string|max:80',
         'postal_code' => 'required|string|max:20',
     ];
 
-    public function placeOrder()
+    public function mount(): void
+    {
+        $this->cart = CartService::get();
+        $this->calculateTotals();
+    }
+
+    private function calculateTotals(): void
+    {
+        $this->subtotal = collect($this->cart)->sum(
+            fn ($item) => $item['product']->price * $item['qty']
+        );
+
+        $this->total = $this->subtotal;
+    }
+
+    public function placeOrder(): void
     {
         $this->validate();
 
-        $cart = CartService::get();
-
-        if (empty($cart)) {
+        if (empty($this->cart)) {
             $this->addError('cart', 'Your cart is empty.');
             return;
         }
 
-        DB::transaction(function () use ($cart) {
+        DB::transaction(function () {
 
-            $total = 0;
-
-            // Create order
             $order = Order::create([
                 'user_id' => Auth::id(),
-                'total' => 0, // temp
-                'status' => 'paid',
+                'total'   => 0,
+                'status'  => 'paid',
                 'estimated_arrival' => now()->addDays(5),
             ]);
 
-            foreach ($cart as $item) {
+            $total = 0;
 
-                $product = Product::findOrFail($item['id']);
+            foreach ($this->cart as $item) {
+                $product = Product::findOrFail($item['product']->id);
 
-                $lineTotal = $product->price * $item['quantity'];
+                $lineTotal = $product->price * $item['qty'];
                 $total += $lineTotal;
 
                 OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'price' => $product->price,
-                    'quantity' => $item['quantity'],
+                    'order_id'  => $order->id,
+                    'product_id'=> $product->id,
+                    'price'     => $product->price,
+                    'qty'  => $item['qty'],
                 ]);
             }
 
-            // Update final total
             $order->update([
                 'total' => $total,
             ]);
@@ -74,14 +88,15 @@ class CheckoutPage extends Component
 
         CartService::clear();
 
-        return redirect('/account/orders');
+        $this->redirect('/account/orders', navigate: true);
     }
 
     public function render()
     {
         return view('livewire.checkout.checkout-page', [
-            'cart' => CartService::get(),
-            'total' => CartService::total(),
+            'cart' => $this->cart,
+            'subtotal' => $this->subtotal,
+            'total' => $this->total,
         ]);
     }
 }

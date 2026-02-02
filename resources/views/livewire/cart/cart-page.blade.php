@@ -10,28 +10,36 @@
         @else
             <div class="space-y-6">
                 @foreach($cart as $item)
-                    <div class="flex justify-between items-center border-b border-border pb-4">
-                        <div>
-                            <p class="text-text font-medium">
-                                {{ $item['brand'] }} {{ $item['model'] }}
-                            </p>
-                            <p class="text-text-muted text-sm">
-                                ${{ number_format($item['price'], 2) }}
-                            </p>
-                        </div>
+                <div class="flex gap-4 border-b border-border py-4">
 
-                        <div class="flex items-center gap-4">
-                            <button wire:click="decrement({{ $item['id'] }})">−</button>
-                            <span>{{ $item['quantity'] }}</span>
-                            <button wire:click="increment({{ $item['id'] }})">+</button>
-                        </div>
+                    {{-- Image --}}
+                    <img
+                        src="{{ asset('storage/' . $item['product']->image_url) }}"
+                        class="w-20 h-20 object-cover rounded"
+                    >
 
-                        <button wire:click="remove({{ $item['id'] }})"
-                                class="text-red-400 text-sm">
-                            Remove
-                        </button>
+                    {{-- Details --}}
+                    <div class="flex-1">
+                        <p class="font-medium">
+                            {{ $item['product']->brand }}
+                        </p>
+
+                        <p class="text-sm text-text-muted">
+                            {{ $item['product']->model }}
+                        </p>
+
+                        <p class="text-gold mt-1">
+                            $ {{ number_format($item['product']->price) }}
+                        </p>
+
+                        <p class="text-sm mt-1">
+                            Qty: {{ $item['qty'] }}
+                        </p>
                     </div>
-                @endforeach
+
+                </div>
+            @endforeach
+
             </div>
 
             <div class="mt-10 flex justify-between items-center">

@@ -14,7 +14,7 @@
     {{-- Sidebar --}}
     <aside class="w-64 bg-black text-white flex flex-col">
         <div class="p-6 text-2xl font-bold border-b border-gray-800">
-            ⌚ LuxeWatch
+            LUXEWATCH
         </div>
 
         <nav class="flex-1 p-4 space-y-2 text-sm">

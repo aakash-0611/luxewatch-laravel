@@ -6,11 +6,29 @@
 
 /* Global UI variables */
 :root {
-  --text: #EDEDED;        /* soft white */
-  --text-muted: #A1A1AA;  /* elegant gray */
-  --text-subtle: #71717A; /* secondary */
+  /* Backgrounds */
+  --bg: #0B0B0B;              /* Main background */
+  --surface: #121212;         /* Cards / panels */
+  --surface-alt: #181818;     /* Admin rows / hover */
+
+  /* Borders */
+  --border: #242424;
+
+  /* Text */
+  --text: #EDEDED;            /* Soft white */
+  --text-muted: #A1A1AA;      /* Primary muted */
+  --text-subtle: #71717A;     /* Secondary muted */
+
+  /* Accent (Luxury Gold) */
   --gold: #C9A24D;
+  --gold-soft: #E6C87A;
+
+  /* Status */
+  --success: #4ADE80;
+  --warning: #FACC15;
+  --danger: #F87171;
 }
+
 
 body {
   font-family: Inter, system-ui, Segoe UI, Roboto, Arial, sans-serif;

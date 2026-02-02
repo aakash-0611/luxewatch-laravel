@@ -4,7 +4,7 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-semibold text-gray-900">Products</h1>
-            <p class="text-gray-500">Manage your luxury watch inventory</p>
+            <p class="text-gray-900">Manage your luxury watch inventory</p>
         </div>
 
         <button
@@ -28,7 +28,7 @@
     <!-- TABLE -->
     <div class="bg-white rounded-xl shadow overflow-hidden">
         <table class="w-full text-sm">
-            <thead class="bg-gray-50 text-gray-600">
+            <thead class="bg-gray-100 text-gray-700">
                 <tr>
                     <th class="px-6 py-3 text-left">Brand</th>
                     <th class="px-6 py-3 text-left">Model</th>
@@ -39,7 +39,7 @@
                 </tr>
             </thead>
 
-            <tbody class="divide-y">
+            <tbody class="divide-y text-gray-900">
                 @forelse($products as $product)
                     <tr>
                         <td class="px-6 py-4">{{ $product->brand }}</td>
@@ -80,7 +80,7 @@
     <!-- MODAL -->
         @if($showModal)
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="bg-white rounded-xl w-full max-w-lg p-6 space-y-4">
+    <div class="bg-white rounded-xl w-full max-w-lg p-6 space-y-4 text-gray-900">
 
         <h2 class="text-lg font-semibold">
             {{ $editingId ? 'Edit Product' : 'Add Product' }}

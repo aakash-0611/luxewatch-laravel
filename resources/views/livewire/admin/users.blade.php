@@ -21,10 +21,10 @@
         <table class="w-full text-sm">
             <thead class="bg-gray-50 text-gray-600">
                 <tr>
-                    <th class="px-6 py-3">Name</th>
-                    <th class="px-6 py-3">Email</th>
-                    <th class="px-6 py-3">Role</th>
-                    <th class="px-6 py-3">Joined</th>
+                    <th class="px-6 py-3 text-left">Name</th>
+                    <th class="px-6 py-3 text-left">Email</th>
+                    <th class="px-6 py-3 text-left">Role</th>
+                    <th class="px-6 py-3 text-left">Joined</th>
                     <th class="px-6 py-3 text-right">Actions</th>
                 </tr>
             </thead>
@@ -32,8 +32,8 @@
             <tbody class="divide-y">
                 @forelse($users as $user)
                     <tr>
-                        <td class="px-6 py-4 font-medium">
-                            {{ $user->full_name }}
+                        <td class="px-6 py-4 font-medium text-gray-900">
+                            {{ $user->name }}
                         </td>
 
                         <td class="px-6 py-4 text-gray-600">

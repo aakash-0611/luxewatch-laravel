@@ -46,5 +46,17 @@
         </div>
 
     </section>
+    <div class="border-t border-border pt-6 mt-10 align-center text-center">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button
+                class="px-6 py-3 border border-border rounded-full
+                    text-red-400 hover:bg-red-400 hover:text-black transition">
+                Logout
+            </button>
+        </form>
+    </div>
+
+
 
 </div>
