@@ -17,10 +17,12 @@ export default {
                 sans: ['Inter', 'system-ui', 'Segoe UI', 'Roboto', 'Arial', 'sans-serif'],
             },
             colors: {
-                gold: '#C9A24D',
-                surface: '#121212',
-                border: '#1F1F1F',
-            },
+                text: 'var(--text)',
+                'text-muted': 'var(--text-muted)',
+                'text-subtle': 'var(--text-subtle)',
+                gold: 'var(--gold)',
+            }
+
         },
     },
 

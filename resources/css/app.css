@@ -6,12 +6,9 @@
 
 /* Global UI variables */
 :root {
-  --bg: #0B0B0B;
-  --surface: #121212;
-  --border: #1F1F1F;
-
-  --text: #FFFFFF;
-  --text-muted: #9CA3AF;
+  --text: #EDEDED;        /* soft white */
+  --text-muted: #A1A1AA;  /* elegant gray */
+  --text-subtle: #71717A; /* secondary */
   --gold: #C9A24D;
 }
 

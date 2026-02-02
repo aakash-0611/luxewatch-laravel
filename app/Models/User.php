@@ -38,5 +38,11 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+    
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
 }
 ?>

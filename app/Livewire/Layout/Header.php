@@ -3,13 +3,15 @@
 namespace App\Livewire\Layout;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Auth;
+use App\Services\CartService;
 
 class Header extends Component
 {
     public bool $mobileMenuOpen = false;
 
-    protected $listeners = ['cartUpdated' => '$refresh'];
+    protected $listeners = [
+        'cartUpdated' => '$refresh',
+    ];
 
     public function toggleMobileMenu()
     {
@@ -18,7 +20,7 @@ class Header extends Component
 
     public function getCartCountProperty(): int
     {
-        return collect(session('cart', []))->sum('quantity');
+        return CartService::count();
     }
 
     public function render()

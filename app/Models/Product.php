@@ -35,5 +35,11 @@ class Product extends Model
     {
         return $query->where('active', true);
     }
+    
+    public function wishlistedBy()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
 }
 ?>
